@@ -3,7 +3,7 @@
 .classpath
 .settings
 .idea
-.iml
+*.iml
 *.class
 
 # Log file
