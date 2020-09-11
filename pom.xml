@@ -17,7 +17,8 @@
     <name>RGW Client</name>
     <url>https://github.com/sosozhuang/rgw-client</url>
     <description>
-        RGW Client is an Ceph Rados Object Gateway client library, compatible with Amazon S3 API, bucket, support bucket, object and admin operations.
+        RGW Client is an Ceph Rados Object Gateway client library, compatible with Amazon S3 API, support bucket, object
+        and admin operations.
     </description>
 
     <developers>
