@@ -16,7 +16,9 @@ import java.util.stream.Collectors;
 
 /**
  * Properties for {@link io.ceph.rgw.client.Clients}.
- * Created by T_zhuangshuo_kzx on 2020/2/27.
+ *
+ * @author zhuangshuo
+ * Created by zhuangshuo on 2020/2/27.
  */
 public class RGWClientProperties {
     private static final Logger LOGGER = LoggerFactory.getLogger(RGWClientProperties.class);

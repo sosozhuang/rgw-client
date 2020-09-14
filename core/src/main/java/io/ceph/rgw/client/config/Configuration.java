@@ -14,7 +14,9 @@ import java.util.stream.Collectors;
 
 /**
  * An immutable configuration implementation.
- * Created by T_zhuangshuo_kzx on 2020/3/16.
+ *
+ * @author zhuangshuo
+ * Created by zhuangshuo on 2020/3/16.
  */
 public final class Configuration {
     private final Map<String, String> configMap;
