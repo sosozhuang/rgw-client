@@ -10,6 +10,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>rgw-client-core-async</artifactId>
+    <packaging>pom</packaging>
+    <name>RGW Client/Core Async Lib</name>
+    <description>The async core module of RGW Client lib.</description>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>io.ceph</groupId>
+            <artifactId>rgw-client-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+        </dependency>
+    </dependencies>
 </project>
