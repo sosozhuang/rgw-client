@@ -11,6 +11,7 @@
 
     <artifactId>rgw-client-core</artifactId>
     <name>RGW Client/Core Lib</name>
+    <description>The core module of RGW Client lib.</description>
 
     <dependencies>
         <dependency>
