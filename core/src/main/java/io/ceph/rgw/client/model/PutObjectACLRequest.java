@@ -64,7 +64,7 @@ public class PutObjectACLRequest extends BaseObjectRequest {
 
         @Override
         public PutObjectACLResponse run() {
-            return client.setObjectACL(build());
+            return client.putObjectACL(build());
         }
 
         @Override
