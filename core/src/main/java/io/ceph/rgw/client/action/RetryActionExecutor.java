@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/3/9.
+ * @see io.ceph.rgw.client.config.RGWClientProperties.ConnectorProperties#enableRetry
  */
 public final class RetryActionExecutor implements ActionExecutor {
     private static final Logger LOGGER = LoggerFactory.getLogger(RetryActionExecutor.class);
