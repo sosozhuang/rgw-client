@@ -10,6 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>rgw-client-spring-boot-starter</artifactId>
+    <name>RGW Client/Spring Boot Starter</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.ceph</groupId>
+            <artifactId>rgw-client-spring-boot-autoconfigure</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

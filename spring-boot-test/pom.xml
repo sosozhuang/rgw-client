@@ -10,6 +10,48 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>rgw-client-spring-boot-test</artifactId>
+    <name>RGW Client/Spring Boot Test</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>io.ceph</groupId>
+            <artifactId>rgw-client-core-async</artifactId>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>io.ceph</groupId>
+            <artifactId>rgw-client-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>
