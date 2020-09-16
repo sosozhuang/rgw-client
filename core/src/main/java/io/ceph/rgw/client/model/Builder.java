@@ -8,9 +8,9 @@ package io.ceph.rgw.client.model;
  */
 public interface Builder<T extends Request> {
     /**
-     * build a {@link Request}
+     * build a {@link Request}.
      *
-     * @return built request
+     * @return the constructed request
      */
     T build();
 }
