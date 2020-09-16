@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=io.ceph.rgw.client.spring.autoconfigure.RGWClientConfiguration
