@@ -21,8 +21,7 @@
     <url>https://github.com/sosozhuang/rgw-client</url>
     <description>
         RGW Client is an Ceph Rados Object Gateway client library, compatible with Amazon S3 API, supports bucket,
-        object
-        and admin operations.
+        object and admin operations.
     </description>
 
     <developers>
@@ -219,6 +218,22 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>findbugs-maven-plugin</artifactId>
                 <version>3.0.5</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
