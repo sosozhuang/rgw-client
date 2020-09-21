@@ -29,6 +29,7 @@ public class RGWClientProperties {
     private static final String ENABLE_OBJECT = PREFIX + "enableObject";
     private static final String CONNECTOR_PREFIX = PREFIX + "connector";
     private static final String THREAD_POOLS_PREFIX = PREFIX + "threadPools";
+    private static final String ENABLE_HYSTRIX = PREFIX + "enableHystrix";
     private static final String HYSTRIX_PREFIX = PREFIX + "hystrix";
     public static final Boolean DEFAULT_ENABLE_ADMIN = false;
     public static final Boolean DEFAULT_ENABLE_BUCKET = true;
@@ -71,6 +72,7 @@ public class RGWClientProperties {
         } else {
             this.threadPools = Collections.emptyMap();
         }
+        this.enableHystrix = config.getBoolean(ENABLE_HYSTRIX, DEFAULT_ENABLE_HYSTRIX);
         this.hystrixConfig = config.getSubConfig(HYSTRIX_PREFIX);
         this.validate();
     }
