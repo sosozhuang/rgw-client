@@ -9,8 +9,11 @@ import javax.annotation.PostConstruct;
 import java.util.Map;
 
 /**
+ * Properties for spring boot configuration.
+ *
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/2/27.
+ * @see RGWClientConfiguration
  */
 @ConfigurationProperties(RGWClientAutoProperties.NAME)
 public final class RGWClientAutoProperties extends RGWClientProperties {
