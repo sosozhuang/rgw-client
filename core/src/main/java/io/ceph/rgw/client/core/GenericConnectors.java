@@ -49,10 +49,10 @@ public abstract class GenericConnectors<C> extends AbstractClosable implements C
 
     @Override
     public void markFailure(C connector, Throwable cause) {
+        if (connector == null) {
+            return;
+        }
         try {
-            if (connector == null) {
-                return;
-            }
             Metrics metrics = map.computeIfAbsent(connector, k -> new Metrics(64));
             metrics.markFailure();
             LOGGER.warn("Connector[{}] marked failure, metrics: [{}].", connector, metrics, cause);
