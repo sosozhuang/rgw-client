@@ -55,7 +55,7 @@ public abstract class GenericConnectors<C> extends AbstractClosable implements C
         try {
             Metrics metrics = map.computeIfAbsent(connector, k -> new Metrics(64));
             metrics.markFailure();
-            LOGGER.warn("Connector[{}] marked failure, metrics: [{}].", connector, metrics, cause);
+            LOGGER.warn("Connector[{}] marked failure, reason: [{}], metrics: [{}].", connector, cause, metrics);
         } catch (Throwable t) {
             LOGGER.error("Failed to mark failure.", t);
         }
