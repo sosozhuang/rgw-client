@@ -144,7 +144,7 @@ public interface ObjectWriter extends ObjectRequest {
         }
 
         /**
-         * Set writtng to file.
+         * Set writing to file.
          *
          * @param file the file path
          * @return reference of this object
