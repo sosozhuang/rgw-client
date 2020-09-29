@@ -89,7 +89,7 @@ public final class Clients extends AbstractClosable {
      * Get the admin client to perform admin operations.
      *
      * @return the admin client
-     * @throws UnsupportedOperationException if {@link RGWClientProperties#enableAdmin} is not enabled
+     * @throws UnsupportedOperationException if {@link RGWClientProperties#isEnableAdmin()} returns false
      */
     public AdminClient getAdmin() {
         return adminClientSupplier.get();
@@ -99,7 +99,7 @@ public final class Clients extends AbstractClosable {
      * Get the bucket client to perform bucket operations.
      *
      * @return the bucket client
-     * @throws UnsupportedOperationException if {@link RGWClientProperties#enableBucket} is not enabled
+     * @throws UnsupportedOperationException if {@link RGWClientProperties#isEnableBucket()} returns false
      */
     public BucketClient getBucket() {
         return bucketClientSupplier.get();
@@ -109,7 +109,7 @@ public final class Clients extends AbstractClosable {
      * Get the object client to perform object operations.
      *
      * @return the object client
-     * @throws UnsupportedOperationException if {@link RGWClientProperties#enableObject} is not enabled
+     * @throws UnsupportedOperationException if {@link RGWClientProperties#isEnableObject()} returns false
      */
     public ObjectClient getObject() {
         return objectClientSupplier.get();
