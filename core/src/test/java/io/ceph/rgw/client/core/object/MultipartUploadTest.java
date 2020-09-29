@@ -5,11 +5,13 @@ import io.ceph.rgw.client.model.InitiateMultipartUploadResponse;
 import io.ceph.rgw.client.model.MultipartUploadPartResponse;
 import org.junit.After;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/7/9.
  */
+@Category(ObjectTests.class)
 public class MultipartUploadTest extends BaseObjectClientTest {
     @After
     @Override

@@ -5,6 +5,7 @@ import io.ceph.rgw.client.util.IOUtil;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -13,6 +14,7 @@ import java.io.InputStream;
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/7/9.
  */
+@Category(ObjectTests.class)
 public class InputStreamTest extends BaseObjectClientTest {
     @After
     @Override

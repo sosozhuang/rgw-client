@@ -1,6 +1,7 @@
 package io.ceph.rgw.client.core.admin;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.util.Date;
 
@@ -8,6 +9,7 @@ import java.util.Date;
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/7/31.
  */
+@Category(AdminTests.class)
 public class TrimUsageTest extends BaseAdminClientTest {
     @Test
     public void testSync() {

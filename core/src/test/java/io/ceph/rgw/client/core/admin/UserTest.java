@@ -4,11 +4,13 @@ import io.ceph.rgw.client.exception.NoSuchUserException;
 import io.ceph.rgw.client.model.admin.CreateUserResponse;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/8/5.
  */
+@Category(AdminTests.class)
 public class UserTest extends BaseAdminClientTest {
     @Test
     public void testSync() {

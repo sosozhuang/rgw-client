@@ -1,11 +1,13 @@
 package io.ceph.rgw.client.core.admin;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/8/5.
  */
+@Category(AdminTests.class)
 public class CheckBucketIndexTest extends BaseAdminClientTest {
     @Test
     public void testSync() {

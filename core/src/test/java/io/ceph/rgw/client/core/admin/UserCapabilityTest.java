@@ -5,6 +5,7 @@ import io.ceph.rgw.client.model.admin.RemoveUserCapabilityResponse;
 import io.ceph.rgw.client.model.admin.UserCap;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/8/6.
  */
+@Category(AdminTests.class)
 public class UserCapabilityTest extends BaseAdminClientTest {
     @Test
     public void testSync() {

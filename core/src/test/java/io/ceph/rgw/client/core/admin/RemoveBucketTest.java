@@ -3,12 +3,14 @@ package io.ceph.rgw.client.core.admin;
 import io.ceph.rgw.client.exception.RGWServerException;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 
 /**
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/8/5.
  */
+@Category(AdminTests.class)
 public class RemoveBucketTest extends BaseAdminClientTest {
     @Test(expected = RGWServerException.class)
     public void testNoBucket() {

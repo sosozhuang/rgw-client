@@ -6,11 +6,13 @@ import io.ceph.rgw.client.model.admin.ModifySubUserResponse;
 import io.ceph.rgw.client.model.admin.SubUser;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/8/5.
  */
+@Category(AdminTests.class)
 public class SubUserTest extends BaseAdminClientTest {
     @Test
     public void testSync() {

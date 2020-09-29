@@ -4,11 +4,13 @@ import io.ceph.rgw.client.model.BucketVersioning;
 import io.ceph.rgw.client.model.GetBucketVersioningResponse;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/7/9.
  */
+@Category(BucketTests.class)
 public class BucketVersioningTest extends BaseBucketClientTest {
     @Test
     public void testSync() {

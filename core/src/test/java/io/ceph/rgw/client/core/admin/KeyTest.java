@@ -8,11 +8,13 @@ import io.ceph.rgw.client.model.admin.KeyType;
 import io.ceph.rgw.client.model.admin.S3Credential;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/8/5.
  */
+@Category(AdminTests.class)
 public class KeyTest extends BaseAdminClientTest {
     private static final String AKEY = "a";
     private static final String SKEY = "s";

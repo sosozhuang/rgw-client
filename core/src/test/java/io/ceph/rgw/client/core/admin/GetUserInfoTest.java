@@ -4,11 +4,13 @@ import io.ceph.rgw.client.exception.RGWServerException;
 import io.ceph.rgw.client.model.admin.GetUserInfoResponse;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/7/31.
  */
+@Category(AdminTests.class)
 public class GetUserInfoTest extends BaseAdminClientTest {
     @Test(expected = RGWServerException.class)
     public void testNotExists() {

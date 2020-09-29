@@ -3,11 +3,13 @@ package io.ceph.rgw.client.core.admin;
 import io.ceph.rgw.client.model.admin.GetUserQuotaResponse;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/7/31.
  */
+@Category(AdminTests.class)
 public class UserQuotaTest extends BaseAdminClientTest {
     @Test
     public void testSync() {

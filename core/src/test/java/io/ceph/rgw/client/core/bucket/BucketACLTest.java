@@ -5,11 +5,13 @@ import io.ceph.rgw.client.model.CannedACL;
 import io.ceph.rgw.client.model.GroupGrantee;
 import io.ceph.rgw.client.model.Permission;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/7/9.
  */
+@Category(BucketTests.class)
 public class BucketACLTest extends BaseBucketClientTest {
 
     @Test

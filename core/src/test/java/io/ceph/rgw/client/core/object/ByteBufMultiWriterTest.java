@@ -8,6 +8,7 @@ import io.ceph.rgw.client.model.GetStringResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -18,6 +19,7 @@ import java.util.List;
  * @author zhuangshuo
  * Created by zhuangshuo on 2020/8/12.
  */
+@Category(ObjectTests.class)
 public class ByteBufMultiWriterTest extends ObjectWriterTest {
     private ObjectWriter makeObjectWriter() {
         return new ObjectWriter.Builder(objectClient)
