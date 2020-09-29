@@ -24,6 +24,17 @@ import java.nio.charset.Charset;
  * @see ObjectClient
  */
 public interface ObjectWriter extends ObjectRequest {
+
+    /**
+     * Create a new builder.
+     *
+     * @param client the ObjectClient
+     * @return the constructed builder
+     */
+    static Builder builder(ObjectClient client) {
+        return new Builder(client);
+    }
+
     /**
      * Default value of chunk size.
      *
