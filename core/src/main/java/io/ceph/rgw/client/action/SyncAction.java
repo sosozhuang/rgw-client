@@ -1,7 +1,5 @@
 package io.ceph.rgw.client.action;
 
-import net.jodah.typetools.TypeResolver;
-
 import java.util.concurrent.Callable;
 
 /**
@@ -23,11 +21,6 @@ public interface SyncAction<R> extends Action, Callable<R> {
 
     @Override
     default String name() {
-        try {
-            String className = TypeResolver.resolveRawArgument(SyncAction.class, this.getClass()).getSimpleName();
-            return className.endsWith("Response") ? className.substring(0, className.length() - 8) : className;
-        } catch (Exception ignored) {
-        }
         return "SyncAction";
     }
 }

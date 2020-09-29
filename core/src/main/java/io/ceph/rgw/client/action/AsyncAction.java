@@ -1,7 +1,5 @@
 package io.ceph.rgw.client.action;
 
-import net.jodah.typetools.TypeResolver;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 
@@ -24,11 +22,6 @@ public interface AsyncAction<R> extends Action, Callable<CompletableFuture<R>> {
 
     @Override
     default String name() {
-        try {
-            String className = TypeResolver.resolveRawArgument(AsyncAction.class, this.getClass()).getSimpleName();
-            return className.endsWith("Response") ? className.substring(className.lastIndexOf('.') + 1, className.length() - 8) : className;
-        } catch (Exception ignored) {
-        }
         return "AsyncAction";
     }
 }
