@@ -6,6 +6,7 @@ import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.http.SdkHttpResponse;
 import software.amazon.awssdk.services.s3.model.CopyObjectResult;
 import software.amazon.awssdk.services.s3.model.HeadBucketResponse;
+import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
 import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
 
 import java.io.InputStream;
@@ -219,6 +220,26 @@ public final class AsyncResponseConverter {
 
     private static Bucket convert(software.amazon.awssdk.services.s3.model.Bucket src, software.amazon.awssdk.services.s3.model.Owner owner) {
         return new Bucket(src.name(), new Owner(owner.id(), owner.displayName()), Optional.ofNullable(src.creationDate()).map(Date::from).orElse(null));
+    }
+
+    public static ListObjectsResponse listObjects(ListObjectsV2Response src) {
+        return new ListObjectsResponse(src.name(), src.isTruncated(), src.keyCount(),
+                src.nextContinuationToken(), src.prefix(), src.delimiter(),
+                src.maxKeys(), src.encodingTypeAsString(), src.continuationToken(),
+                src.startAfter(), convertObjects(src.contents()));
+    }
+
+    private static List<S3Object> convertObjects(List<software.amazon.awssdk.services.s3.model.S3Object> src) {
+        if (src == null || src.size() == 0) {
+            return Collections.emptyList();
+        }
+        return src.stream().map(AsyncResponseConverter::convert).collect(Collectors.toList());
+    }
+
+    private static S3Object convert(software.amazon.awssdk.services.s3.model.S3Object src) {
+        return new S3Object(src.key(), src.eTag(),
+                src.size(), Optional.ofNullable(src.lastModified()).map(Date::from).orElse(null),
+                src.storageClassAsString(), convert(src.owner()));
     }
 
     public static GetBucketLocationResponse getBucketLocation(software.amazon.awssdk.services.s3.model.GetBucketLocationResponse src) {

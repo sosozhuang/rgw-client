@@ -3,6 +3,7 @@ package io.ceph.rgw.client.converter;
 import io.ceph.rgw.client.core.async.ByteBufferAsyncRequestBody;
 import io.ceph.rgw.client.core.async.InputStreamAsyncRequestBody;
 import io.ceph.rgw.client.model.*;
+import io.ceph.rgw.client.model.ListObjectsRequest;
 import org.apache.commons.lang3.ArrayUtils;
 import software.amazon.awssdk.core.async.AsyncRequestBody;
 import software.amazon.awssdk.services.s3.model.AbortMultipartUploadRequest;
@@ -321,6 +322,19 @@ public final class AsyncRequestConverter {
 
     public static ListBucketsRequest listBuckets(io.ceph.rgw.client.model.ListBucketsRequest src) {
         return ListBucketsRequest.builder().build();
+    }
+
+    public static ListObjectsV2Request listObjects(ListObjectsRequest src) {
+        return ListObjectsV2Request.builder()
+                .bucket(src.getBucketName())
+                .prefix(src.getPrefix())
+                .delimiter(src.getDelimiter())
+                .maxKeys(src.getMaxKeys())
+                .encodingType(src.getEncodingType())
+                .continuationToken(src.getContinuationToken())
+                .fetchOwner(src.isFetchOwner())
+                .startAfter(src.getStartAfter())
+                .build();
     }
 
     public static GetBucketLocationRequest getBucketLocation(io.ceph.rgw.client.model.GetBucketLocationRequest src) {

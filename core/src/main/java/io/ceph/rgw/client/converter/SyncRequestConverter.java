@@ -325,6 +325,18 @@ public final class SyncRequestConverter {
         return new ListBucketsRequest();
     }
 
+    public static ListObjectsV2Request listObjects(io.ceph.rgw.client.model.ListObjectsRequest src) {
+        return new ListObjectsV2Request()
+                .withBucketName(src.getBucketName())
+                .withPrefix(src.getPrefix())
+                .withDelimiter(src.getDelimiter())
+                .withMaxKeys(src.getMaxKeys())
+                .withEncodingType(src.getEncodingType())
+                .withContinuationToken(src.getContinuationToken())
+                .withFetchOwner(src.isFetchOwner())
+                .withStartAfter(src.getStartAfter());
+    }
+
     public static GetBucketLocationRequest getBucketLocation(io.ceph.rgw.client.model.GetBucketLocationRequest src) {
         return new GetBucketLocationRequest(src.getBucketName());
     }

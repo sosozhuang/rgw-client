@@ -147,6 +147,39 @@ public interface BucketClient {
     }
 
     /**
+     * List objects asynchronously.
+     *
+     * @param request the list objects request
+     * @return An ActionFuture containing the list objects response
+     */
+    ActionFuture<ListObjectsResponse> listObjectsAsync(ListObjectsRequest request);
+
+    /**
+     * List objects asynchronously.
+     *
+     * @param request  the list objects request
+     * @param listener the callback listener after action is done
+     */
+    void listObjectsAsync(ListObjectsRequest request, ActionListener<ListObjectsResponse> listener);
+
+    /**
+     * List objects synchronously.
+     *
+     * @param request the list objects request
+     * @return the list objects response
+     */
+    ListObjectsResponse listObjects(ListObjectsRequest request);
+
+    /**
+     * Fluent api to list buckets.
+     *
+     * @return the request builder
+     */
+    default ListObjectsRequest.Builder prepareListObjects() {
+        return new ListObjectsRequest.Builder(this);
+    }
+
+    /**
      * Get bucket location asynchronously.
      *
      * @param request the get bucket location request

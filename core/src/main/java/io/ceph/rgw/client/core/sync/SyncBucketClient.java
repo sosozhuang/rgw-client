@@ -105,6 +105,25 @@ public class SyncBucketClient extends SyncConnectorAware implements BucketClient
     }
 
     @Override
+    public ActionFuture<ListObjectsResponse> listObjectsAsync(ListObjectsRequest request) {
+        return executor.execute(() -> doListObjects(request));
+    }
+
+    @Override
+    public void listObjectsAsync(ListObjectsRequest request, ActionListener<ListObjectsResponse> listener) {
+        executor.execute(() -> doListObjects(request), listener);
+    }
+
+    @Override
+    public ListObjectsResponse listObjects(ListObjectsRequest request) {
+        return executor.run(() -> doListObjects(request));
+    }
+
+    private ListObjectsResponse doListObjects(ListObjectsRequest request) {
+        return doAction(amazonS3 -> SyncResponseConverter.listObjects(amazonS3.listObjectsV2(SyncRequestConverter.listObjects(request).withGeneralProgressListener(LoggingProgressListener.create(LOGGER, request)))));
+    }
+
+    @Override
     public ActionFuture<GetBucketLocationResponse> getBucketLocationAsync(GetBucketLocationRequest request) {
         return executor.execute(() -> doGetBucketLocation(request));
     }

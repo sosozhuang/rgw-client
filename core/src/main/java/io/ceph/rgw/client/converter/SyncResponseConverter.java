@@ -18,6 +18,7 @@ import io.ceph.rgw.client.model.GetObjectRequest;
 import io.ceph.rgw.client.model.Grant;
 import io.ceph.rgw.client.model.MultipartUpload;
 import io.ceph.rgw.client.model.Permission;
+import io.ceph.rgw.client.model.S3Object;
 import io.ceph.rgw.client.util.IOUtil;
 import org.apache.commons.lang3.StringUtils;
 
@@ -71,23 +72,23 @@ public final class SyncResponseConverter {
 
     @FunctionalInterface
     public interface GetObjectResponseConverter<REQ extends BaseGetObjectRequest, RESP extends BaseGetObjectResponse> {
-        RESP convert(REQ request, S3Object object);
+        RESP convert(REQ request, com.amazonaws.services.s3.model.S3Object object);
     }
 
-    public static GetObjectResponse getObject(GetObjectRequest request, S3Object object) {
+    public static GetObjectResponse getObject(GetObjectRequest request, com.amazonaws.services.s3.model.S3Object object) {
         return new GetObjectResponse(object.getObjectMetadata().getVersionId(), object.getTaggingCount(), convert(object.getObjectMetadata()), object.getObjectContent());
     }
 
-    public static GetFileResponse getFile(GetFileRequest request, S3Object object) {
+    public static GetFileResponse getFile(GetFileRequest request, com.amazonaws.services.s3.model.S3Object object) {
         IOUtil.copyToFile(object.getObjectContent(), request.getPath().toFile());
         return new GetFileResponse(object.getObjectMetadata().getVersionId(), object.getTaggingCount(), convert(object.getObjectMetadata()));
     }
 
-    public static GetInputStreamResponse getInputStream(GetInputStreamRequest request, S3Object object) {
+    public static GetInputStreamResponse getInputStream(GetInputStreamRequest request, com.amazonaws.services.s3.model.S3Object object) {
         return new GetInputStreamResponse(object.getObjectMetadata().getVersionId(), object.getTaggingCount(), convert(object.getObjectMetadata()), object.getObjectContent());
     }
 
-    public static GetStringResponse getString(GetStringRequest request, S3Object object) {
+    public static GetStringResponse getString(GetStringRequest request, com.amazonaws.services.s3.model.S3Object object) {
         return new GetStringResponse(object.getObjectMetadata().getVersionId(), object.getTaggingCount(), convert(object.getObjectMetadata()), IOUtil.toString(object.getObjectContent()));
     }
 
@@ -161,6 +162,28 @@ public final class SyncResponseConverter {
 
     private static io.ceph.rgw.client.model.Owner convert(Owner src) {
         return Optional.ofNullable(src).map(owner -> new io.ceph.rgw.client.model.Owner(src.getId(), src.getDisplayName())).orElse(null);
+    }
+
+    public static ListObjectsResponse listObjects(ListObjectsV2Result result) {
+        return new ListObjectsResponse(result.getBucketName(), result.isTruncated(),
+                result.getKeyCount(), result.getNextContinuationToken(),
+                result.getPrefix(), result.getDelimiter(),
+                result.getMaxKeys(), result.getEncodingType(),
+                result.getContinuationToken(), result.getStartAfter(),
+                convertObjects(result.getObjectSummaries()));
+    }
+
+    private static List<S3Object> convertObjects(List<S3ObjectSummary> src) {
+        if (src == null || src.size() == 0) {
+            return Collections.emptyList();
+        }
+        return src.stream().map(SyncResponseConverter::convert)
+                .collect(Collectors.toList());
+    }
+
+    private static S3Object convert(S3ObjectSummary src) {
+        return new S3Object(src.getKey(), src.getETag(),
+                src.getSize(), src.getLastModified(), src.getStorageClass(), convert(src.getOwner()));
     }
 
     public static GetBucketLocationResponse getBucketLocation(String location) {

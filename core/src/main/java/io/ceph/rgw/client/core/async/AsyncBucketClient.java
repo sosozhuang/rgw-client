@@ -101,6 +101,26 @@ public class AsyncBucketClient extends AsyncConnectorAware<S3AsyncClient> implem
     }
 
     @Override
+    public ActionFuture<ListObjectsResponse> listObjectsAsync(ListObjectsRequest request) {
+        return executor.execute(() -> doListObjects(request));
+    }
+
+    @Override
+    public void listObjectsAsync(ListObjectsRequest request, ActionListener<ListObjectsResponse> listener) {
+        executor.execute(() -> doListObjects(request), listener);
+    }
+
+    @Override
+    public ListObjectsResponse listObjects(ListObjectsRequest request) {
+        return listObjectsAsync(request).actionGet();
+    }
+
+    private CompletableFuture<ListObjectsResponse> doListObjects(ListObjectsRequest request) {
+        return doAction(s3AsyncClient -> s3AsyncClient.listObjectsV2(AsyncRequestConverter.listObjects(request)), AsyncResponseConverter::listObjects);
+    }
+
+
+    @Override
     public ActionFuture<GetBucketLocationResponse> getBucketLocationAsync(GetBucketLocationRequest request) {
         return executor.execute(() -> doGetBucketLocation(request));
     }
