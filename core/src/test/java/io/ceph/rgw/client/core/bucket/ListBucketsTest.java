@@ -33,9 +33,4 @@ public class ListBucketsTest extends BaseBucketClientTest {
         Bucket info = resp.getBuckets().stream().filter(b -> b.getName().equals(bucket)).findFirst().orElse(null);
         Assert.assertNotNull(info);
     }
-
-    @Override
-    protected boolean isCreateBucket() {
-        return true;
-    }
 }
