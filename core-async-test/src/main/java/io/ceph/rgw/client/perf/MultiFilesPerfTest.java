@@ -8,8 +8,10 @@ import org.openjdk.jmh.annotations.*;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
+import java.util.stream.Collectors;
 
 import static io.ceph.rgw.client.perf.FileUtil.createTempFile;
 import static io.ceph.rgw.client.perf.FileUtil.writeFile;
@@ -48,22 +50,22 @@ public class MultiFilesPerfTest extends ObjectPerfTest {
     public static abstract class AbstractFileState {
         @Param({"4", "8", "16", "32"})
         int num;
-        BlockingQueue<File> files;
+        List<File> fileList;
 
         abstract int getSize();
 
         @Setup(Level.Trial)
         public void setUp() {
-            files = new LinkedBlockingQueue<>(num);
+            fileList = new LinkedList<>();
             for (int i = 0; i < num; i++) {
-                files.add(writeFile(getSize()));
+                fileList.add(writeFile(getSize()));
             }
         }
 
         @TearDown(Level.Trial)
         public void tearDown() {
-            if (files != null && files.size() > 0) {
-                files.forEach(File::delete);
+            if (fileList != null && fileList.size() > 0) {
+                fileList.forEach(File::delete);
             }
         }
     }
@@ -89,15 +91,15 @@ public class MultiFilesPerfTest extends ObjectPerfTest {
     }
 
     @Benchmark
-    public CompleteMultipartUploadResponse testMultipartUpload(ClientState clientState, LargeFileState fileState) {
+    public CompleteMultipartUploadResponse multipartUpload(ClientState clientState, LargeFileState fileState) {
         ObjectClient objectClient = clientState.objectClient;
         InitiateMultipartUploadResponse initiateResponse = objectClient.prepareInitiateMultipartUpload()
                 .withBucketName(clientState.bucket)
                 .withKey(clientState.key)
                 .run();
         List<PartETag> eTags = new LinkedList<>();
-        for (int i = 0; i < fileState.num; i++) {
-            File file = fileState.files.poll();
+        for (int i = 1; i <= fileState.num; i++) {
+            File file = fileState.fileList.get(i + 1);
             MultipartUploadPartResponse uploadPartResponse = objectClient.prepareUploadFile()
                     .withBucketName(clientState.bucket)
                     .withKey(clientState.key)
@@ -118,69 +120,47 @@ public class MultiFilesPerfTest extends ObjectPerfTest {
     }
 
     @Benchmark
-    public BasePutObjectResponse testFileWriterSingleThread(WriterState writerState, FileState fileState) {
+    public BasePutObjectResponse fileWriterSingleThread(WriterState writerState, FileState fileState) {
         ObjectWriter writer = writerState.fileObjectWriter;
-        while (!fileState.files.isEmpty()) {
-            writer.write(fileState.files.poll());
+        fileState.fileList.forEach(writer::write);
+        return writer.complete();
+    }
+
+    @Benchmark
+    public BasePutObjectResponse fileWriterMultiThread(WriterState writerState, FileState fileState) throws ExecutionException, InterruptedException {
+        ObjectWriter writer = writerState.fileObjectWriter;
+        List<ForkJoinTask<?>> tasks = fileState.fileList.stream()
+                .map(file -> ForkJoinPool.commonPool().submit(() -> writer.write(file)))
+                .collect(Collectors.toList());
+        for (ForkJoinTask<?> task : tasks) {
+            task.get();
         }
         return writer.complete();
     }
 
     @Benchmark
-    @Group("fileWriter")
-    @GroupThreads(4)
-    public void testFileWriterMultiThread(WriterState writerState, FileState fileState) {
-        ObjectWriter writer = writerState.fileObjectWriter;
-        File file = fileState.files.poll();
-        if (file != null) {
-            writer.write(file);
-        }
-    }
-
-    @Benchmark
-    @Group("fileWriter")
-    @GroupThreads(1)
-    public BasePutObjectResponse testFileWriterComplete(WriterState writerState, FileState fileState) {
-        while (fileState.files.isEmpty()) {
-        }
-        return writerState.fileObjectWriter.complete();
-    }
-
-    @Benchmark
-    public BasePutObjectResponse testByteBufSingleWriter(WriterState writerState, FileState fileState) {
+    public BasePutObjectResponse byteBufSingleWriter(WriterState writerState, FileState fileState) {
         ObjectWriter writer = writerState.byteBufSingleObjectWriter;
-        while (!fileState.files.isEmpty()) {
-            writer.write(fileState.files.poll());
-        }
+        fileState.fileList.forEach(writer::write);
         return writer.complete();
     }
 
     @Benchmark
-    public BasePutObjectResponse testByteBufMultiWriterSingleThread(WriterState writerState, FileState fileState) {
+    public BasePutObjectResponse byteBufMultiWriterSingleThread(WriterState writerState, FileState fileState) {
         ObjectWriter writer = writerState.byteBufMultiObjectWriter;
-        while (!fileState.files.isEmpty()) {
-            writer.write(fileState.files.poll());
-        }
+        fileState.fileList.forEach(writer::write);
         return writer.complete();
     }
 
     @Benchmark
-    @Group("byteBufMultiWriter")
-    @GroupThreads(4)
-    public void testByteBufMultiWriterMultiThread(WriterState writerState, FileState fileState) {
+    public BasePutObjectResponse byteBufMultiWriterMultiThread(WriterState writerState, FileState fileState) throws ExecutionException, InterruptedException {
         ObjectWriter writer = writerState.byteBufMultiObjectWriter;
-        File file = fileState.files.poll();
-        if (file != null) {
-            writer.write(file);
+        List<ForkJoinTask<?>> tasks = fileState.fileList.stream()
+                .map(file -> ForkJoinPool.commonPool().submit(() -> writer.write(file)))
+                .collect(Collectors.toList());
+        for (ForkJoinTask<?> task : tasks) {
+            task.get();
         }
-    }
-
-    @Benchmark
-    @Group("byteBufMultiWriter")
-    @GroupThreads(1)
-    public BasePutObjectResponse testByteBufMultiWriterComplete(WriterState writerState, FileState fileState) {
-        while (fileState.files.isEmpty()) {
-        }
-        return writerState.byteBufMultiObjectWriter.complete();
+        return writer.complete();
     }
 }

@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Warmup(iterations = 3, batchSize = 2)
 @Measurement(iterations = 10, batchSize = 10)
+@Fork(jvmArgsPrepend = {"-server", "-Xms1G", "-Xmx1G", "-XX:MaxDirectMemorySize=4G", "-XX:+AlwaysPreTouch", "-XX:+UseG1GC"})
 public abstract class ObjectPerfTest {
     @State(Scope.Benchmark)
     public static class ClientState {
@@ -41,6 +42,14 @@ public abstract class ObjectPerfTest {
         @Setup(Level.Invocation)
         public void setUpKey() {
             key = "object-" + System.currentTimeMillis();
+        }
+
+        @TearDown(Level.Invocation)
+        public void tearDownKey() {
+            objectClient.prepareDeleteObject()
+                    .withBucketName(bucket)
+                    .withKey(key)
+                    .run();
         }
     }
 }

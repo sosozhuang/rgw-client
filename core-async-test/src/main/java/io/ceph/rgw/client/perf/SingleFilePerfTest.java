@@ -53,7 +53,7 @@ public class SingleFilePerfTest extends ObjectPerfTest {
     }
 
     @Benchmark
-    public PutObjectResponse testPutFile(ClientState clientState, FileState fileState) {
+    public PutObjectResponse putFile(ClientState clientState, FileState fileState) {
         return clientState.objectClient.preparePutFile()
                 .withBucketName(clientState.bucket)
                 .withKey(clientState.key)
@@ -62,7 +62,7 @@ public class SingleFilePerfTest extends ObjectPerfTest {
     }
 
     @Benchmark
-    public PutObjectResponse testPutInputStream(ClientState clientState, FileState fileState) throws FileNotFoundException {
+    public PutObjectResponse putInputStream(ClientState clientState, FileState fileState) throws FileNotFoundException {
         return clientState.objectClient.preparePutInputStream()
                 .withBucketName(clientState.bucket)
                 .withKey(clientState.key)
@@ -71,7 +71,7 @@ public class SingleFilePerfTest extends ObjectPerfTest {
     }
 
     @Benchmark
-    public CompleteMultipartUploadResponse testMultipartUpload(ClientState clientState, LargeFileState fileState) {
+    public CompleteMultipartUploadResponse multipartUpload(ClientState clientState, LargeFileState fileState) {
         ObjectClient objectClient = clientState.objectClient;
         InitiateMultipartUploadResponse initiateResponse = objectClient.prepareInitiateMultipartUpload()
                 .withBucketName(clientState.bucket)
@@ -96,7 +96,7 @@ public class SingleFilePerfTest extends ObjectPerfTest {
     }
 
     @Benchmark
-    public BasePutObjectResponse testFileWriter(ClientState clientState, FileState fileState) {
+    public BasePutObjectResponse fileWriter(ClientState clientState, FileState fileState) {
         ObjectWriter writer = new ObjectWriter.Builder(clientState.objectClient)
                 .withFile(createTempFile().getAbsolutePath())
                 .withBucketName(clientState.bucket)
@@ -107,7 +107,7 @@ public class SingleFilePerfTest extends ObjectPerfTest {
     }
 
     @Benchmark
-    public BasePutObjectResponse testByteBufSingleWriter(ClientState clientState, FileState fileState) {
+    public BasePutObjectResponse byteBufSingleWriter(ClientState clientState, FileState fileState) {
         ObjectWriter writer = new ObjectWriter.Builder(clientState.objectClient)
                 .withBuffer()
                 .withSingleWriteThread()
@@ -119,7 +119,7 @@ public class SingleFilePerfTest extends ObjectPerfTest {
     }
 
     @Benchmark
-    public BasePutObjectResponse testByteBufMultiWriter(ClientState clientState, FileState fileState) {
+    public BasePutObjectResponse byteBufMultiWriter(ClientState clientState, FileState fileState) {
         ObjectWriter writer = new ObjectWriter.Builder(clientState.objectClient)
                 .withBuffer()
                 .withMultiWriteThread()
