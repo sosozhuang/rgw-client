@@ -302,7 +302,7 @@ public final class Clients extends AbstractClosable {
      * @see ThreadPool#close()
      */
     @Override
-    public void doClose() {
+    protected void doClose() {
         for (Map.Entry<String, Connectors> entry : connectorsMap.entrySet()) {
             entry.getValue().close();
         }
