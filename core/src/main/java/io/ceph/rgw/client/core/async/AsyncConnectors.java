@@ -47,7 +47,7 @@ public abstract class AsyncConnectors<C extends SdkClient> extends GenericConnec
                 .putChannelOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 .putChannelOption(ChannelOption.SO_KEEPALIVE, properties.isEnableKeepAlive())
                 .putChannelOption(ChannelOption.TCP_NODELAY, true)
-                .eventLoopGroup(SdkEventLoopGroup.builder().threadFactory(new SimpleThreadFactory("rgw-client-async")).build())
+                .eventLoopGroup(SdkEventLoopGroup.builder().threadFactory(new SimpleThreadFactory("rgw-client-async", true)).build())
                 .build();
         this.overrideConf = ClientOverrideConfiguration.builder()
                 .retryPolicy(retryPolicy())

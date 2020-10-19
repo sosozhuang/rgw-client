@@ -13,12 +13,19 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class SimpleThreadFactory implements ThreadFactory {
     private final String prefix;
+    private final boolean daemon;
     private final AtomicInteger counter;
 
     public SimpleThreadFactory(String prefix) {
+        this(prefix, false);
+    }
+
+    public SimpleThreadFactory(String prefix, boolean daemon) {
         this.prefix = Validate.notBlank(prefix);
+        this.daemon = daemon;
         this.counter = new AtomicInteger();
     }
+
 
     @Override
     public Thread newThread(Runnable r) {
