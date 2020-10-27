@@ -26,9 +26,10 @@ public class SimpleThreadFactory implements ThreadFactory {
         this.counter = new AtomicInteger();
     }
 
-
     @Override
     public Thread newThread(Runnable r) {
-        return new Thread(r, prefix + "-" + counter.incrementAndGet());
+        Thread t = new Thread(r, prefix + "-" + counter.incrementAndGet());
+        t.setDaemon(daemon);
+        return t;
     }
 }
