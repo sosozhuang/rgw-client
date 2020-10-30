@@ -155,7 +155,6 @@ class InputStreamAsyncResponseTransformer implements AsyncResponseTransformer<Ge
                     completeExceptionally(e);
                 } finally {
                     file.deleteOnExit();
-                    file = null;
                 }
             }
         }
@@ -170,6 +169,14 @@ class InputStreamAsyncResponseTransformer implements AsyncResponseTransformer<Ge
             if (!future.isCancelled()) {
                 future.completeExceptionally(cause);
             }
+        }
+
+        @Override
+        protected void finalize() throws Throwable {
+            if (file != null) {
+                file.delete();
+            }
+            super.finalize();
         }
     }
 }
