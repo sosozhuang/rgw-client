@@ -434,7 +434,7 @@ public class RGWClientProperties {
                 }
                 subscribes.forEach(EndpointProperties::validate);
             }
-            if (maxConnections == null || connectionTimeout <= 0) {
+            if (maxConnections == null || maxConnections <= 0) {
                 LOGGER.warn("Invalid maxConnections value [{}], set to 30.", maxConnections);
                 maxConnections = DEFAULT_MAX_CONNECTIONS;
             } else if (maxConnections > 100) {
